@@ -1,0 +1,2 @@
+# udev rule for the smcchar device driver
+KERNEL=="smcchar", SUBSYSTEM=="smc", MODE="0666"
