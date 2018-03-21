@@ -1,0 +1,28 @@
+## MAC OS
+.DS_Store
+
+## TEXTMATE
+*.tmproj
+tmtags
+
+## EMACS
+*~
+\#*
+.\#*
+
+## VIM
+*.sw[op]
+
+## PROJECT::GENERAL
+*.o
+*.o.d
+*.ko
+*.cmd
+*.mod.c
+.tmp_versions
+.cache.mk
+Module.symvers
+modules.order
+
+## PROJECT::SPECIFIC
+smcchar_test
