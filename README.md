@@ -18,7 +18,17 @@ To cross compile the module for ARM64 we can use the OPTEE aarch64 toolchain in
 $ SYSCASE=../syscase make KDIR=`pwd`/../../../linux ARCH=arm64 CROSS_COMPILE=`pwd`/../../../toolchains/aarch64/bin/aarch64-linux-gnu-
 ```
 
-## Loading the module in OPTEE
+## OPTEE
+
+### Adding the module to `gen_rootfs`
+
+* Copy `smcchar.ko` to `optee/gen_rootfs/etc`
+* Add the following line to `optee/gen_rootfs/filelist.txt`
+```text
+file /etc/smcchar.ko etc/smcchar.ko 644 0 0
+```
+
+### Loading the module
 
 Start OPTEE and execute following commands to load `smcchar.ko`:
 
