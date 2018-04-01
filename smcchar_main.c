@@ -130,10 +130,14 @@ static ssize_t syscase_smcchar_receive(void *target, const char *buffer, size_t 
 static ssize_t syscase_smcchar_call(const char *buffer, size_t input_size) {
   char *input;
   ssize_t ret;
-
-  input = kmalloc(SMC_CALL_SIZE, GFP_KERNEL);
-  memset(input, 0, SMC_CALL_SIZE);
-  ret = syscase_smcchar_receive(input, buffer, input_size);
+  if(!trace) {
+    input = kmalloc(SMC_CALL_SIZE, GFP_KERNEL);
+    memset(input, 0, SMC_CALL_SIZE);
+    ret = syscase_smcchar_receive(input, buffer, input_size);
+  } else {
+    input = NULL;
+    ret = 0;
+  }
   result = trace_test_case(
       input,
       input_size,
