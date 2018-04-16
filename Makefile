@@ -4,7 +4,7 @@ SRC += $(SYSCASE)/afl_call.c
 SRC += $(SYSCASE)/test_run.c
 SRC += $(SYSCASE)/buffer.c
 SRC += $(SYSCASE)/parse_state.c
-SRC += $(SYSCASE)/optee/parse_handler.c
+SRC += $(SYSCASE)/optee/smc/parse_handler.c
 SRC += $(SYSCASE)/linux/smc/common.c
 SRC += $(SYSCASE)/test_case.c
 SRC += $(SYSCASE)/argument/number.c
@@ -14,6 +14,7 @@ SRC += $(SYSCASE)/argument/length.c
 SRC += $(SYSCASE)/argument/vector_32.c
 SRC += $(SYSCASE)/argument/vector_64.c
 SRC += $(SYSCASE)/argument/reference.c
+SRC += $(SYSCASE)/optee/smc/argument/msg.c
 SRC += $(SYSCASE)/utils.c
 SRC += smcchar_main.c
 
