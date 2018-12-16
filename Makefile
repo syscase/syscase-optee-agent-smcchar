@@ -1,5 +1,6 @@
 MODULE_NAME = smcchar
 SRC += vendor/memmem.c
+SRC += $(SYSCASE)/vendor/jsmn/jsmn.c
 SRC += $(SYSCASE)/afl_call.c
 SRC += $(SYSCASE)/test_run.c
 SRC += $(SYSCASE)/buffer.c
@@ -23,7 +24,7 @@ KDIR ?= /lib/modules/$(shell uname -r)/build/
 $(MODULE_NAME)-objs = $(SRC:.c=.o)
 obj-m += $(MODULE_NAME).o
 # Compile with `-D SYSCASE_DUMMY` to disable AFL / SMC calls
-EXTRA_CFLAGS=-I$(PWD)/include -I$(PWD)/$(SYSCASE)/include -std=gnu99 -D SYSCASE_SMC=y
+EXTRA_CFLAGS=-I$(PWD)/include -I$(PWD)/$(SYSCASE)/vendor/jsmn -I$(PWD)/$(SYSCASE)/include -std=gnu99 -D SYSCASE_SMC=y
 ccflags-y += $(EXTRA_CFLAGS)
 
 all:
