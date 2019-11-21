@@ -8,7 +8,7 @@
 #include "syscase/smcchar/api.h"
 #include "syscase/smcchar/smc_call.h"
 
-sc_u_long smc_call(char *input, sc_u_long input_size, int trace) {
+sc_u_long smc_call(char *input, sc_u_long input_size, int flags) {
   int ret, fd;
   sc_u_long result;
   
@@ -18,10 +18,10 @@ sc_u_long smc_call(char *input, sc_u_long input_size, int trace) {
     return 1;
   }
   
-  printf("Set trace: %d\n", trace);
-  ret = pwrite(fd, &trace, SMC_TRACE_SIZE, SMC_SET_TRACE);
+  printf("Set flags: %d\n", flags);
+  ret = pwrite(fd, &flags, SMC_FLAGS_SIZE, SMC_SET_FLAGS);
   if (ret < 0){
-    perror("Failed to set trace!");
+    perror("Failed to set flags!");
     return 1;
   }
 

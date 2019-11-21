@@ -21,7 +21,7 @@ EXPORT_SYMBOL(syscase_verbose);
 
 static int major_number;
 static unsigned long result = 0;
-static int trace = 0;
+static int flags = 0;
 static struct class*  smcchar_class  = NULL;
 static struct device* smcchar_device = NULL;
 
@@ -130,7 +130,7 @@ static ssize_t syscase_smcchar_receive(void *target, const char *buffer, size_t 
 static ssize_t syscase_smcchar_call(const char *buffer, size_t input_size) {
   char *input;
   ssize_t ret;
-  if(!trace) {
+  if(!(flags & FLAG_TRACE) || flags & FLAG_COMBINED) {
     input = kmalloc(SMC_CALL_SIZE, GFP_KERNEL);
     memset(input, 0, SMC_CALL_SIZE);
     ret = syscase_smcchar_receive(input, buffer, input_size);
@@ -147,7 +147,7 @@ static ssize_t syscase_smcchar_call(const char *buffer, size_t input_size) {
       // OPTEE core
       0xe100000,
       0xe143fff,
-      trace
+      flags
   );
   kfree(input);
   return ret;
@@ -157,12 +157,12 @@ static ssize_t syscase_smcchar_write(struct file *file, const char *buffer, size
   unsigned long mode = (unsigned long) *offset;
   
   switch(mode) {
-    case SMC_SET_TRACE:
-      if(len > SMC_TRACE_SIZE) {
-        len = SMC_TRACE_SIZE;
+    case SMC_SET_FLAGS:
+      if(len > SMC_FLAGS_SIZE) {
+        len = SMC_FLAGS_SIZE;
       }
-      memset(&trace, 0, SMC_TRACE_SIZE);
-      return syscase_smcchar_receive(&trace, buffer, len);
+      memset(&flags, 0, SMC_FLAGS_SIZE);
+      return syscase_smcchar_receive(&flags, buffer, len);
     case SMC_CALL:
       if(len > SMC_CALL_SIZE) {
         len = SMC_CALL_SIZE;

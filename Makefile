@@ -1,21 +1,22 @@
 MODULE_NAME = smcchar
 SRC += vendor/memmem.c
-SRC += $(SYSCASE)/afl_call.c
-SRC += $(SYSCASE)/test_run.c
-SRC += $(SYSCASE)/buffer.c
-SRC += $(SYSCASE)/parse_state.c
-SRC += $(SYSCASE)/optee/smc/parse_handler.c
-SRC += $(SYSCASE)/linux/smc/common.c
-SRC += $(SYSCASE)/test_case.c
-SRC += $(SYSCASE)/argument/number.c
-SRC += $(SYSCASE)/argument/alloc.c
-SRC += $(SYSCASE)/argument/buffer.c
-SRC += $(SYSCASE)/argument/length.c
-SRC += $(SYSCASE)/argument/vector_32.c
-SRC += $(SYSCASE)/argument/vector_64.c
-SRC += $(SYSCASE)/argument/reference.c
-SRC += $(SYSCASE)/optee/smc/argument/msg.c
-SRC += $(SYSCASE)/utils.c
+SRC += $(SYSCASE)/vendor/jsmn/jsmn.c
+SRC += $(SYSCASE)/src/core/afl_call.c
+SRC += $(SYSCASE)/src/core/test_run.c
+SRC += $(SYSCASE)/src/core/buffer.c
+SRC += $(SYSCASE)/src/core/parse_state.c
+SRC += $(SYSCASE)/src/optee/smc/parse_handler.c
+SRC += $(SYSCASE)/src/linux_common_smc/common.c
+SRC += $(SYSCASE)/src/core/test_case.c
+SRC += $(SYSCASE)/src/core/argument/number.c
+SRC += $(SYSCASE)/src/core/argument/alloc.c
+SRC += $(SYSCASE)/src/core/argument/buffer.c
+SRC += $(SYSCASE)/src/core/argument/length.c
+SRC += $(SYSCASE)/src/core/argument/vector_32.c
+SRC += $(SYSCASE)/src/core/argument/vector_64.c
+SRC += $(SYSCASE)/src/core/argument/reference.c
+SRC += $(SYSCASE)/src/optee/smc/argument/msg.c
+SRC += $(SYSCASE)/src/core/utils.c
 SRC += smcchar_main.c
 
 KDIR ?= /lib/modules/$(shell uname -r)/build/
@@ -23,7 +24,7 @@ KDIR ?= /lib/modules/$(shell uname -r)/build/
 $(MODULE_NAME)-objs = $(SRC:.c=.o)
 obj-m += $(MODULE_NAME).o
 # Compile with `-D SYSCASE_DUMMY` to disable AFL / SMC calls
-EXTRA_CFLAGS=-I$(PWD)/include -I$(PWD)/$(SYSCASE)/include -std=gnu99 -D SYSCASE_SMC=y
+EXTRA_CFLAGS=-I$(PWD)/include -I$(PWD)/$(SYSCASE)/vendor/jsmn -I$(PWD)/$(SYSCASE)/include/core -I$(PWD)/$(SYSCASE)/include/linux -I$(PWD)/$(SYSCASE)/include/optee -std=gnu99 -D SYSCASE_SMC=y
 ccflags-y += $(EXTRA_CFLAGS)
 
 all:
